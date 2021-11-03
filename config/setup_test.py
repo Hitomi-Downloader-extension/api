@@ -32,7 +32,7 @@ print("Make scripts folder for test")
 os.mkdir("scripts")
 
 print("Copy scripts")
-shutil.copyfile("api.py", "scripts/api.py")
+shutil.copyfile("api.py", "scripts/api.hds")
 print("Copy config")
 shutil.copyfile("config/hitomi_downloader_GUI.ini", "hitomi_downloader_GUI.ini")
 
