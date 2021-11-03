@@ -34,6 +34,6 @@ os.mkdir("scripts")
 print("Copy scripts")
 shutil.copyfile("api.py", "scripts/api.py")
 print("Copy config")
-shutil.copyfile("tests/hitomi_downloader_GUI.ini", "hitomi_downloader_GUI.ini")
+shutil.copyfile("config/hitomi_downloader_GUI.ini", "hitomi_downloader_GUI.ini")
 
 print("Done")
