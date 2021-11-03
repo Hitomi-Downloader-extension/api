@@ -108,7 +108,7 @@ def ping(req_handler: "RequestHandler") -> Any:
     """
     This endpoint is used to check if the server is running.
     """
-    return req_handler.ok({"message": "pong"})
+    return req_handler.ok({"status": "ok"})
 
 
 @app.get("/list")
