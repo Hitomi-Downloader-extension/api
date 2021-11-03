@@ -24,6 +24,9 @@ jobs:
     - name: Run Hitomi Downloader
       run: |
         ./hitomi_downloader_GUI.exe --no-admin
+    - name: Health check
+      run: |
+        python config/health_check.py
     - name: Run tests
       run: |
         pytest tests
