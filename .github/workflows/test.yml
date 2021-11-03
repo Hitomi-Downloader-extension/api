@@ -24,3 +24,6 @@ jobs:
     - name: Run Hitomi Downloader
       run: |
         ./hitomi_downloader_GUI.exe --no-admin
+    - name: Run tests
+      run: |
+        pytest
