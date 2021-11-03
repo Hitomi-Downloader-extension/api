@@ -20,7 +20,7 @@ jobs:
         pip install requests pytest
     - name: Setup test
       run: |
-        python tests/__setup_test.py
+        python config/__setup_test.py
     - name: Run Hitomi Downloader
       run: |
         ./hitomi_downloader_GUI.exe --no-admin
