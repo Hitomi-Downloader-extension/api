@@ -23,9 +23,10 @@ jobs:
         python config/setup_test.py
     - name: Run Hitomi Downloader
       run: |
-        ./hitomi_downloader_GUI.exe --safemode --no_admin
+        ./hitomi_downloader_GUI.exe --debug --safemode --no_admin
     - name: Health check
       run: |
+        cat debug.txt
         python config/health_check.py
     - name: Run tests
       run: |
