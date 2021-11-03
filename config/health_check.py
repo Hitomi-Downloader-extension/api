@@ -11,5 +11,7 @@ while True:
             print("OK")
             break
     except:
+        if t == 30:
+            break
         print(f"No response. try again after {t} second")
         time.sleep(t)
