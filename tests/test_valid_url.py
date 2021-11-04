@@ -11,7 +11,7 @@ def test_valid_url(client: Session):
 
 def test_not_valid_url(client: Session):
     r = client.post(url, json={"gal_num": "https://example.com"})
-    assert r.json() == {"error": "not_valied"}
+    assert r.json() == {"error": "not_valid"}
     assert r.status_code == 400
 
 
