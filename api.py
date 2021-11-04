@@ -7,7 +7,10 @@ import threading
 import http.server
 import json
 from http.server import BaseHTTPRequestHandler
-from typing import Any, Callable, Dict, List, Set
+from typing import Any, Callable, Dict, List, Optional, Set
+
+from requests.cookies import RequestsCookieJar
+import cooker  # type: ignore
 
 __version__ = "0.1.0"
 
@@ -108,7 +111,7 @@ def ping(req_handler: "RequestHandler") -> Any:
     """
     This endpoint is used to check if the server is running.
     """
-    return req_handler.ok({"status": "ok"})
+    return req_handler.ok()
 
 
 @app.get("/list")
@@ -157,7 +160,44 @@ def download(req: "RequestHandler", data: Dict[str, Any]):
 
     downButton(str(gal_num))
 
-    return req.ok({"status": "ok"})
+    return req.ok()
+
+
+@app.post("/cookie")
+def get_cookie(req: "RequestHandler", data: Dict[str, Any]) -> Any:
+    """
+    This endpoint loads the received cookie value into Hitomi Downloader.
+
+    {
+        "cookies": [
+            {
+                "name": "value",
+                "value": "value",
+                "domain": "value",
+                "expires": 0
+            }
+        ]
+    }
+    """
+
+    cookie_infos: Optional[List[Dict[str, Any]]] = data.get("cookies")
+    if not cookie_infos:
+        return req.bad_request()
+
+    cookie_jar = RequestsCookieJar()
+    for cookie in cookie_infos:
+        if (
+            not cookie.get("domain")
+            or not cookie.get("name")
+            or not cookie.get("value")
+        ):
+            return req.bad_request(
+                {"error": "['domain', 'name', 'value'] is required arguments"}
+            )
+        cookie_jar.set(**cookie)  # type: ignore
+
+    cooker.load(cookie_jar)  # type: ignore
+    return req.ok()
 
 
 class RequestHandler(BaseHTTPRequestHandler):
