@@ -144,7 +144,7 @@ def valied_url(req: "RequestHandler", data: Dict[str, Any]):
     valied = isValidURL(str(gal_num))
 
     if not valied:
-        return req.bad_request({"error": "not_valied"})
+        return req.bad_request({"error": "not_valid"})
 
     return req.ok({"type": list(valied)})
 
