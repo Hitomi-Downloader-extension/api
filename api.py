@@ -209,7 +209,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(self._to_bytes(data))
 
-    def ok(self, data: Dict[str, Any]):
+    def ok(self, data: Dict[str, Any] = {"status": "ok"}):
         """
         Send 200 OK
         """
