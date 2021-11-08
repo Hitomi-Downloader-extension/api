@@ -200,6 +200,16 @@ def get_cookie(req: "RequestHandler", data: Dict[str, Any]) -> Any:
     return req.ok()
 
 
+@app.get("/close")
+def close(req: "RequestHandler") -> Any:
+    """
+    This endpoint close the server.
+    """
+    req.ok()
+    req.server.shutdown()
+    req.server.server_close()
+
+
 class RequestHandler(BaseHTTPRequestHandler):
     def _to_bytes(self, data: Dict[str, Any]) -> bytes:
         return json.dumps(data).encode("utf-8")
