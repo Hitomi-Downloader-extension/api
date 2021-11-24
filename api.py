@@ -131,6 +131,20 @@ def download_list(req_handler: "RequestHandler") -> Any:
 
     return req_handler.ok({"list": datas})
 
+@app.post("/thumbnail")
+def download_list(req_handler: "RequestHandler", userdata: Dict[str, Any]) -> Any:
+    items_all = [ui.listWidget.item(i) for i in range(ui.listWidget.count())]
+    for item in items_all[::-1]:
+        cw = item
+        if not cw._lazy:
+            cw.updateLazy()
+        if not cw.alive or getattr(cw, "pc", None) is not None:
+            continue
+        data = item.serialize(dumps=False, compat=True)
+        if (userdata.get('uid') == data['uid']):
+            return req_handler.ok({"data": data})
+        else:
+            req_handler.not_found()
 
 @app.post("/valid_url")
 def valied_url(req: "RequestHandler", data: Dict[str, Any]):
@@ -259,6 +273,12 @@ class RequestHandler(BaseHTTPRequestHandler):
         except Exception:
             self.send_response(500, "Internal Server Error")
             self.set_response({"error": "internal_server_error"})
+
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET')
+        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
+        return super(RequestHandler, self).end_headers()
 
 
 def entrypoint():
